@@ -1,7 +1,7 @@
 import react from "@vitejs/plugin-react"
 import {resolve} from "path"
 import {defineConfig} from "vite"
-import {createSvgIconsPlugin} from "vite-plugin-svg-icons";
+import {createSvgIconsPlugin} from "vite-plugin-svg-icons"
 
 export default defineConfig({
     resolve: {
@@ -15,5 +15,8 @@ export default defineConfig({
             iconDirs: [resolve(process.cwd(), "src/icons")],
             symbolId: "icon-[name]"
         })
-    ]
+    ],
+    legacy:{
+        buildRollupPluginCommonjs:true
+    }
 })
