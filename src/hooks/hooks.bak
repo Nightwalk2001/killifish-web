@@ -1,0 +1,10 @@
+// client.updateSettings({
+//     filterableAttributes: [
+//         "owner",
+//         "amount",
+//         "size",
+//         "sexual",
+//         "genotype",
+//         "species"
+//     ]
+// })

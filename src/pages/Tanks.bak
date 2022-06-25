@@ -1,0 +1,24 @@
+
+    {/*<motion.div*/}
+    {/*  layout*/}
+    {/*  className={"grid grid-cols-4 place-content-center gap-x-5 gap-y-3.5"}>*/}
+    {/*  {tanks && tanks.map((d: Tank, i: number) =>*/}
+    {/*    <motion.div*/}
+    {/*      key={d.id}*/}
+    {/*      // animate={{opacity: [0.4, 1]}}*/}
+    {/*      // transition={{duration: 0.01, delay: 0.0103 * i}}*/}
+    {/*      className={"relative h-20 px-2 py-1.5 text-white bg-blue-400/90 rounded-md"}*/}
+    {/*    >*/}
+    {/*      <div role={"button"} onClick={() => toRecordings(d.id)}>*/}
+    {/*        <div>鱼缸编号：{d.id}</div>*/}
+    {/*        /!*<div>所有者：{d.owner}</div>*!/*/}
+    {/*        <div>鳉鱼数量：{d.amount}</div>*/}
+    {/*        <div>基因型：{d.genotype}</div>*/}
+    {/*      </div>*/}
+
+    {/*      <img src={TankLogo} alt="" className={"absolute -top-1 right-1 w-12 h-12"}/>*/}
+
+    {/*      <input type="checkbox" className={"absolute -top-1 -left-1 z-10 w-5 h-5 rounded-sm"}/>*/}
+    {/*    </motion.div>*/}
+    {/*  )}*/}
+    {/*</motion.div>*/}

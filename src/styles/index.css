@@ -1,0 +1,9 @@
+@import "base.css";
+@import "fonts.css";
+@import "utilties.css";
+@import "window.css";
+@import "table.css";
+
+@import "react-toastify/dist/ReactToastify.css";
+
+@tailwind components;

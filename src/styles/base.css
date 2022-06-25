@@ -1,0 +1,97 @@
+@tailwind base;
+
+html {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+::-ms-reveal {
+    display: none;
+}
+
+body {
+    overflow-y: overlay;
+}
+
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #98f3e9;
+    border-radius: 1px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #42e8e8;
+}
+
+div::selection,
+h1::selection,
+p::selection,
+span::selection,
+text::selection,
+pre::selection,
+td::selection {
+    background: #79ffe1;
+}
+
+svg,
+svg text,
+svg tspan {
+    user-select: none !important;
+}
+
+img,
+button {
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+.styledRadio:checked, .styledRadio:not(:checked) {
+    position: absolute;
+    left: -9999px;
+}
+
+.styledRadio:checked + label,
+.styledRadio:not(:checked) + label {
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    color: #666;
+}
+
+.styledRadio:checked + label:before, .styledRadio:not(:checked) + label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #37cdbe;
+    border-radius: 100%;
+    background: #fff;
+}
+
+.styledRadio:checked + label:after,
+.styledRadio:not(:checked) + label:after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    box-sizing: inherit;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background-color: #fff;
+}
+
+.styledRadio:checked + label:after {
+    background-color: #37cdbe;
+    opacity: 1;
+    transform: scale(1);
+    transition: all .2s ease;
+}

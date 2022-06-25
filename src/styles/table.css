@@ -1,0 +1,13 @@
+.recording-table::-webkit-scrollbar {
+    height: 10px;
+}
+
+.recording-table::-webkit-scrollbar-thumb {
+    background-color: #e4e5fc;
+    border-bottom-left-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+}
+
+.recording-table::-webkit-scrollbar-thumb:hover {
+    background-color: #e3ccfa;
+}

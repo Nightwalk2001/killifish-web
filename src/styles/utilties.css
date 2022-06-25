@@ -1,0 +1,35 @@
+@tailwind utilities;
+
+@layer base {
+    button {
+        @apply focus-visible:border-0 outline-none
+    }
+}
+
+@layer utilities {
+    .flex-center {
+        @apply flex items-center
+    }
+
+    .flex-col-center {
+        @apply flex flex-col items-center
+    }
+
+    .size-4 {
+        @apply w-4 h-4
+    }
+
+    .size-5 {
+        @apply w-5 h-5
+    }
+
+    .size-6 {
+        @apply w-6 h-6
+    }
+}
+
+@layer components {
+    .label {
+        @apply text-sm text-gray-600
+    }
+}

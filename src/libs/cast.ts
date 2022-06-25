@@ -1,0 +1,1 @@
+export const num2str = (num:number) => `${num}`
