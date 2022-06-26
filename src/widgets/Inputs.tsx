@@ -1,4 +1,4 @@
-import {EyeIcon, EyeSlashIcon} from "@/widgets/Icons"
+import {Icon} from "@/widgets/Icons"
 import {ChangeEventHandler, useState} from "react"
 
 type Props = {
@@ -25,8 +25,8 @@ export const Input = ({
         visible        = inputType === "text"
 
   const eyeIcon = visible
-    ? <EyeSlashIcon className={iconStyle} role={"button"} onClick={hidePassword}/>
-    : <EyeIcon className={iconStyle} role={"button"} onClick={showPassword}/>
+    ? <Icon name={"eye-slash"} className={iconStyle} role={"button"} onClick={hidePassword}/>
+    : <Icon name={"eye"} className={iconStyle} role={"button"} onClick={showPassword}/>
 
   return <div className={"relative"}>
     <input

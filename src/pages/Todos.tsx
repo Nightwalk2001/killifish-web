@@ -1,6 +1,6 @@
 import {useName, useRequest} from "@/hooks"
 import {clsx, getter, poster} from "@/libs"
-import {AddIcon} from "@/widgets/Icons"
+import {Icon} from "@/widgets"
 import {Tab} from "@headlessui/react"
 import {motion} from "framer-motion"
 import {ChangeEvent, useState} from "react"
@@ -43,7 +43,7 @@ export const Todos = () => {
         className={"flex items-center justify-center space-x-1 w-28 lg:w-32 py-2.5 rounded-md text-center text-white fill-white bg-indigo-300"}
         onClick={handleAddTodo}
       >
-        <AddIcon className={"w-5 h-5"}/>
+        <Icon name={"add"} className={"w-5 h-5"}/>
         <span>Add</span>
       </button>
     </div>

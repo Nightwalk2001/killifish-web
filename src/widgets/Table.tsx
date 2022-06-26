@@ -1,7 +1,7 @@
 import {motion} from "framer-motion"
 import React from "react"
 
-export const thStyle = "table-cell py-3.5 text-gray-500 border-b border-slate-200 align-middle text-xs font-semibold text-gray-500 uppercase tracking-wider select-none"
+export const thStyle = "table-cell py-3.5 text-center align-middle text-gray-500 border-b border-slate-200 text-xs font-semibold text-gray-500 uppercase tracking-wider select-none"
 export const tdStyle = "table-cell text-center  align-middle text-gray-500 border-b border-slate-200"
 
 type TableProps = {

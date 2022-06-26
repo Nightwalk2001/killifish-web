@@ -1,6 +1,6 @@
 import {Listbox, Transition} from "@headlessui/react"
 import React, {Fragment} from "react"
-import {CheckIcon, SelectorIcon} from "./Icons"
+import {Icon} from "./Icons"
 
 type Props = {
   options: string[] | number[]
@@ -22,7 +22,7 @@ export const Select = ({
           className="relative w-full py-2 pl-3 pr-2 text-left bg-gray-50 rounded-lg shadow-md focus:outline-none sm:text-sm">
           <span className="block truncate">{current}</span>
           <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-              <SelectorIcon className="w-5 h-5 text-gray-400"/>
+              <Icon name={"selector"} className="w-5 h-5 text-gray-400"/>
             </span>
         </Listbox.Button>
         <Transition
@@ -48,8 +48,8 @@ export const Select = ({
                         {d}
                       </span>
                     {selected &&
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                          <CheckIcon className={`w-5 h-5 hover:fill-white`} aria-hidden="true"/>
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600 hover:text-white">
+                         <Icon name={"check"} className={"w-5 h-5"}/>
                         </span>}
                   </>
                 )}

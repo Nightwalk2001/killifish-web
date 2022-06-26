@@ -1,10 +1,14 @@
-// client.updateSettings({
-//     filterableAttributes: [
-//         "owner",
-//         "amount",
-//         "size",
-//         "sexual",
-//         "genotype",
-//         "species"
-//     ]
-// })
+meiliClient.updateSettings({
+    filterableAttributes: [
+        "owner",
+        "amount",
+        "size",
+        "sexual",
+        "genotype",
+        "species"
+    ],
+    sortableAttributes:[
+        "id",
+        "size"
+    ]
+})

@@ -35,6 +35,10 @@ td::selection {
     background: #79ffe1;
 }
 
+svg {
+    fill: currentColor;
+}
+
 svg,
 svg text,
 svg tspan {
