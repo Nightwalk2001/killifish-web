@@ -1,5 +1,5 @@
 import {updateTanks, useModal, useName, useSearch} from "@/hooks"
-import {clsx, num2str} from "@/libs"
+import {clsx, export_data, meiliClient, num2str} from "@/libs"
 import {ModalEnum, queryAtom} from "@/stores"
 import {Badge, Icon, Modal, Pagination, PopFilter, Table, Tbody, tdStyle, thStyle} from "@/widgets"
 import {scaleOrdinal} from "d3-scale"
@@ -9,26 +9,11 @@ import {Field, Form, FormRenderProps} from "react-final-form"
 import {useNavigate} from "react-router-dom"
 import {toast} from "react-toastify"
 import {useRecoilValue} from "recoil"
+import {DEFAULT, DEFAULT_SORT, pagesizes, sexuals, sizes, sortMap, sorts} from "./tank.constant"
 
 type InputChangeEvent = ChangeEvent<HTMLInputElement>
 
 type FormValues = {}
-
-const headers = ["tank id", "size", "amount", "genotype", "sexual", "birthday", "operations"]
-
-const sizes = ["ALL", "1.5", "3", "10"],
-  sexuals = ["ALL", "male", "female"],
-  pagesizes = [10, 28, 50, 100],
-  sorts = ["None", "tank id:1", "tank id:-1", "size:1", "size:-1"],
-  DEFAULT = "ALL",
-  DEFAULT_SORT = "None"
-
-const sortMap: { [p: string]: string } = {
-  "tank id:1": "id:asc",
-  "tank id:-1": "id:desc",
-  "size:1": "size:asc",
-  "size:-1": "size:desc"
-}
 
 const color = scaleOrdinal<number, string>()
     .domain([1.5, 3, 10])
@@ -86,7 +71,16 @@ export const Tanks = () => {
 
   const openUpdate = () => setModalStore({type: ModalEnum.TankModify})
 
-  const handleSelectAll = () => setSelected(prev => prev.length ? [] : tanks?.map(d => d.id)!)
+  const handleSelectAll = async () => {
+    if (selected.length) setSelected([])
+    else {
+      const {hits} = await meiliClient.search(query, {
+        filter,
+        sort: sort ? [sort] : undefined, limit: count
+      })
+      setSelected(hits?.map(d => d.id)!)
+    }
+  }
 
   const cancelSelect = (id: string) => {
     if (selected.length === 1) {
@@ -106,6 +100,8 @@ export const Tanks = () => {
     toast("successfully updated!")
     await mutate()
   }
+
+  const exportData = () => tanks && export_data(tanks, "tanks.xlsx")
 
   const searchPanel = <div className={"flex items-center space-x-8 my-3"}>
     <PopFilter name={"size"} active={size != DEFAULT}>
@@ -242,36 +238,50 @@ export const Tanks = () => {
 
   return <main className={"px-12 lg:px-24 my-4"}>
     <div className={"flex space-x-4 my-4"}>
-
       <button
         onClick={openUpdate}
         disabled={!selected.length}
-        className={"disabled:text-gray-300 disabled:cursor-not-allowed"}
+        className={"inline-flex items-center space-x-1 disabled:text-gray-300 disabled:cursor-not-allowed"}
       >
-        batch update
+        <Icon name={"update"} className={"size-6 text-purple-500/90"}/>
+        <span>update</span>
       </button>
 
       <button
         onClick={handleSelectAll}
-        className={count === selected.length ? "text-violet-400" : "text-gray-300"}>
-        select all
+        className={clsx("inline-flex items-center space-x-1", count === selected.length ? "text-violet-400" : "text-gray-300")}>
+        <Icon name={"select-all"} className={"size-6 text-green-300"}/>
+        <span>select all</span>
       </button>
 
-      <button>
-        import data
+      <button className={"inline-flex items-center space-x-2"}>
+        <Icon name={"import"} className={"size-6 text-orange-400/90"}/>
+        <span>import data</span>
       </button>
 
-      <button>
-        export data
+      <div role={"button"}>
+
+      </div>
+
+      <button className={"inline-flex items-center space-x-2"} disabled={!tanks} onClick={exportData}>
+        <span>export data</span>
+        <Icon name={"export"} className={"size-6 text-cyan-500/90"}/>
       </button>
     </div>
 
     {searchPanel}
 
+    <div className={"my-3 flex items-center space-x-3"}>
+      <div className={"inline-flex items-center space-x-2 px-2.5 py-0.5 rounded-md border border-indigo-100"}>
+        <span>male</span>
+        <Icon name={"x"} className={"size-5"}/>
+      </div>
+    </div>
+
     <Table>
       <div className={"table-header-group text-center"}>
         <div className={"table-row bg-gray-200/70"}>
-          <div className={clsx(thStyle, "w-1/10")}>
+          <div className={clsx(thStyle, "w-1/8")}>
             <div role={"button"} className={"flex items-center w-fit mx-auto"}>
               <Icon name={"primary-key"} className={"size-4 text-[#80cbc4]"}/>
               <span className={"ml-0.5 mr-1"}>tank id</span>
@@ -287,9 +297,9 @@ export const Tanks = () => {
           </div>
           <div className={clsx(thStyle, "w-1/10")}>
             <div className={"flex items-center space-x-0.5 w-fit mx-auto"}>
-            <Icon name={"label"} className={"size-4 text-[#80cbc4]"}/>
-            <span>amount</span>
-            <Icon name={"alpha-sort"} className={"size-4"}/>
+              <Icon name={"label"} className={"size-4 text-[#80cbc4]"}/>
+              <span>amount</span>
+              <Icon name={"alpha-sort"} className={"size-4"}/>
             </div>
           </div>
           <div className={clsx(thStyle, "w-2/5")}>genotype</div>
@@ -327,7 +337,10 @@ export const Tanks = () => {
             <div className={tdStyle}>
               <div className={"flex justify-around items-center"}>
                 <button onClick={() => toRecordings(d.id)}>more</button>
-                <button>edit</button>
+                <button>
+                  edit
+                  <Icon name={"edit"} className={"size-4 text-sky-400"}/>
+                </button>
               </div>
             </div>
           </div>)}

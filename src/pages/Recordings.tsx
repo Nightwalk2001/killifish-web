@@ -193,10 +193,10 @@ export const Recordings = () => {
 
                         {d.succeed
                             ? <div className={tdStyle}>
-                                <Icon name={"success"} className={"w-7 scale-95 mx-auto text-green-500/80"}/>
+                                <Icon name={"success"} className={"w-7 h-7 scale-95 mx-auto text-green-500/80"}/>
                             </div>
                             : <div className={tdStyle}>
-                                <Icon name={"fail"} className={"w-7 mx-auto fill-red-500/80"}/>
+                                <Icon name={"fail"} className={"w-7 h-7 mx-auto fill-red-500/80"}/>
                             </div>
                         }
                     </div>
