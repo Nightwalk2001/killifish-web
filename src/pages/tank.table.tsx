@@ -1,0 +1,58 @@
+import {clsx, diffTime} from "@/libs"
+import {Icon, tdStyle} from "@/widgets"
+import React from "react"
+import {scaleOrdinal} from "d3-scale"
+
+type Props = {
+  tank: Tank
+  handleSelect: (id: string) => void
+  checked: boolean
+  handleMore: (id: string) => void
+}
+
+const color = scaleOrdinal<number, string>()
+  .domain([1.5, 3, 10])
+  .range(["#f899d7", "#a0b9f1", "#d3a9fd"])
+
+export const TankRow = ({
+                          tank: {id, amount, genotype, sexual, size, birthday},
+                          handleSelect,
+                          checked,
+                          handleMore
+                        }: Props) =>
+  <div className={"table-row whitespace-nowrap text-gray-700 odd:bg-gray-50/50"}>
+    <div className={clsx(tdStyle, "inline-flex place-content-center py-2")}>
+      <input
+        type="checkbox"
+        checked={checked}
+        className={"justify-self-center w-5 h-5 rounded-sm border-1.5"}
+        onChange={() => handleSelect(id)}
+      />
+      <span className={"inline-block w-16"}>{id}</span>
+    </div>
+    <div
+      className={clsx(tdStyle, "font-medium")}
+      style={{color: color(size)}}>
+      {size}L
+    </div>
+    <div className={tdStyle}>{amount}</div>
+    <div className={clsx(tdStyle, "truncate")}>{genotype}</div>
+    <div className={tdStyle}>{sexual ??
+      <div className={"text-gray-400/50 italic"}>&lt;null&gt;</div>}</div>
+
+    <div className={tdStyle}>{diffTime(birthday)}</div>
+    <div className={tdStyle}>
+      <div className={"flex justify-around items-center"}>
+        <button onClick={() => handleMore(id)}
+                className={"inline-flex items-center px-1 text-sm text-cyan-300 border border-cyan-300 rounded-sm"}>
+          more
+          <Icon name={"more"} className={"w-3.5 h-3.5"}/>
+        </button>
+        <button
+          className={"inline-flex items-center px-1 text-sm text-indigo-400 border border-indigo-400 rounded-sm"}>
+          edit
+          <Icon name={"edit"} className={"w-3.5 h-3.5"}/>
+        </button>
+      </div>
+    </div>
+  </div>

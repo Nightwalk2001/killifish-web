@@ -3,6 +3,7 @@ import {ModalEnum} from "@/stores"
 import {Dialog, Transition} from "@headlessui/react"
 import React, {Fragment} from "react"
 import {TrickCenter} from "./TrickCenter"
+import {clsx} from "@/libs"
 
 type Props = {
   name: ModalEnum
@@ -12,21 +13,19 @@ type Props = {
 }
 
 export const Modal = ({
-  name,
-  title,
-  children,
-  className,
-}: Props) => {
+                        name,
+                        title,
+                        children,
+                        className = "",
+                      }: Props) => {
   const {type, closeModal} = useModal()
 
   return <Transition show={type === name} as={Fragment}>
     <Dialog
       as="div"
-      className={"overflow-y-auto fixed inset-0 z-50"}
+      className={"overlay fixed inset-0 z-50 px-4 text-center"}
       onClose={closeModal}
     >
-      <div className={"px-4 min-h-screen text-center"}>
-
         <Dialog.Overlay className={"fixed inset-0"}/>
 
         <TrickCenter/>
@@ -41,21 +40,19 @@ export const Modal = ({
           leaveTo="opacity-0 scale-95"
         >
           <div
-            className={`inline-block p-6 my-8 overflow-hidden text-left
-            align-middle transition-all transform bg-white shadow-xl rounded-2xl ${className}`}>
-            <div className={"flex flex-col items-center"}>
+            className={clsx("inline-block p-6 my-8 text-left" +
+              " align-middle transition-all transform bg-white shadow-xl rounded-2xl", className)}>
+            <>
               {title &&
-                <Dialog.Title
-                  as="h3"
-                  className={"text-lg font-medium leading-6 text-gray-900 mb-3"}
+                <Dialog.Title as="h3"
+                              className={"text-lg font-medium leading-6 text-gray-900 mb-3"}
                 >
                   {title}
                 </Dialog.Title>}
               {children}
-            </div>
+            </>
           </div>
         </Transition.Child>
-      </div>
     </Dialog>
   </Transition>
 }

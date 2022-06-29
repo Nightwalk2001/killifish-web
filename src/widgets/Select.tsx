@@ -10,11 +10,11 @@ type Props = {
 }
 
 export const Select = ({
-  options,
-  current,
-  onChange,
-  className
-}: Props) => {
+                         options,
+                         current,
+                         onChange,
+                         className,
+                       }: Props) => {
   return <div className={className}>
     <Listbox value={current} onChange={onChange}>
       <div className="relative">
@@ -32,7 +32,7 @@ export const Select = ({
           leaveTo="opacity-0"
         >
           <Listbox.Options
-            className="absolute z-10000 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            className="absolute z-20000 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg  ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {options.map((d, i) => (
               <Listbox.Option
                 key={d}
@@ -48,8 +48,9 @@ export const Select = ({
                         {d}
                       </span>
                     {selected &&
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600 hover:text-white">
-                         <Icon name={"check"} className={"w-5 h-5"}/>
+                      <span
+                        className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600 hover:text-white">
+                         <Icon name={"check"} className={"size-5"}/>
                         </span>}
                   </>
                 )}

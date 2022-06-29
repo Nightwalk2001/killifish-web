@@ -1,61 +1,43 @@
-import {range} from "d3-array"
-import React, {useState} from "react"
+import {DayPicker} from "react-day-picker"
+import {Icon} from "./Icons"
+import {motion} from "framer-motion"
+import {useRef, useState} from "react"
+import {lightFormat} from "date-fns"
 
-const weekdays   = ["一", "二", "三", "四", "五", "六", "七"],
-      months     = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"],
-      dayOfMonth = []
+type Props = {
+  date?: Date
+  handleSelect: (date: Date) => void
+}
 
-const today        = new Date(),
-      currentYear  = today.getFullYear(),
-      currentMonth = today.getMonth()
+export const DatePicker = ({date, handleSelect}: Props) => {
+  const [showPicker, setShowPicker] = useState(false)
+  const ref = useRef(null)
 
-export const DatePicker = () => {
-  const [showPicker, setShowPicker] = useState<boolean>(false),
-        [month, setMonth]           = useState(currentMonth),
-        [current, setCurrent]       = useState<Date>(today)
+  const selectDate = (date?: Date) => {
+    if (date) handleSelect(date)
+    setShowPicker(!showPicker)
+  }
 
-  const onToggleShow  = () => setShowPicker(!showPicker),
-        currenWeekDay = (date: Date, weekday: number) => date.getDay() === weekday,
-        formatDate    = (date: Date) => `${date.getFullYear()}年-${date.getMonth() + 1}月-${date.getDay()}日`
-  // setDate = (day:number) =>
+  return <div ref={ref} className={"relative w-fit"}>
+    <input
+      readOnly
+      role={"button"}
+      className={"w-48 py-1.5 pl-3 text-gray-500 font-medium rounded-md shadow-lg select-none focus:outline-none"}
+      value={date ? lightFormat(date, "yyyy-MM-dd") : "select date"}
+      onClick={() => setShowPicker(!showPicker)}
+    />
+    <Icon
+      name={"calender"}
+      className={"absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 p-1 rounded-md opacity-75 text-indigo-500"}/>
 
-  return <div className={"relative w-72"}>
-    <div onClick={onToggleShow} className={"relative"}>
-      <input
-        type={"text"}
-        readOnly
-        value={formatDate(current)}
-        className={"w-48 pl-8 py-2 bg-gray-50 text-gray-600 font-medium focus:outline-none focus:shadow-outline"}
-        placeholder={"选择日期"}
-      />
-    </div>
-    <div className={"absolute inset-y-0 mt-10 w-96"}>
-      <div className={"flex-middle mb-2"}>
-        <svg viewBox={"0,0,2,4"} className={"w-4 h-4 fill-gray-600"}>
-          <polyline points={"2,0 0,2 2,4"}/>
-        </svg>
-        <span>{month}月</span>
-        <svg viewBox={"0,0,2,4"} className={"w-4 h-4 fill-gray-600"}>
-          <polyline points={"2,0 0,2 2,4"}/>
-        </svg>
-      </div>
-      <div className={"flex-middle justify-between"}>
-        {weekdays.map((d, i) =>
-          <span
-            key={d}
-            className={`text-gray-400 ${current && currenWeekDay(current, i) && "bg-gray-200 p-2 rounded-md"}`}>{d}</span>)}
-      </div>
-      <div>
-        {range(1, 31).map((d, i) => {
-          const tmp = new Date(currentYear, currentMonth, 1)
-          const tmpWeekday = tmp.getDay()
-
-          return <div className={""}
-          >
-
-          </div>
-        })}
-      </div>
-    </div>
+    <motion.div
+      layout
+      className={"absolute -left-[72px] top-10 z-50 bg-white rounded-lg shadow-lg"}>
+      {showPicker && <DayPicker
+        mode={"single"}
+        selected={date}
+        onSelect={selectDate}
+      />}
+    </motion.div>
   </div>
 }

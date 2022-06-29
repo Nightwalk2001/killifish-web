@@ -5,6 +5,7 @@ export enum ModalEnum {
     SignUp,
     TankAdd,
     TankModify,
+    TankBatchModify,
     TankDelete,
     ALERT
 }

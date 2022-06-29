@@ -8,8 +8,8 @@ html {
     display: none;
 }
 
-body {
-    overflow-y: overlay;
+body, .overlay {
+    overflow: overlay;
 }
 
 ::-webkit-scrollbar {

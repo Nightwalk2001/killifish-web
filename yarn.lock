@@ -1030,6 +1030,22 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@reach/auto-id@0.16.0":
+  version "0.16.0"
+  resolved "https://registry.npmmirror.com/@reach/auto-id/-/auto-id-0.16.0.tgz#dfabc3227844e8c04f8e6e45203a8e14a8edbaed"
+  integrity sha512-5ssbeP5bCkM39uVsfQCwBBL+KT8YColdnMN5/Eto6Rj7929ql95R3HZUOkKIvj7mgPtEb60BLQxd1P3o6cjbmg==
+  dependencies:
+    "@reach/utils" "0.16.0"
+    tslib "^2.3.0"
+
+"@reach/utils@0.16.0":
+  version "0.16.0"
+  resolved "https://registry.npmmirror.com/@reach/utils/-/utils-0.16.0.tgz#5b0777cf16a7cab1ddd4728d5d02762df0ba84ce"
+  integrity sha512-PCggBet3qaQmwFNcmQ/GqHSefadAFyNCUekq9RrWoaU9hh/S4iaFgf2MBMdM47eQj5i/Bk0Mm07cP/XPFlkN+Q==
+  dependencies:
+    tiny-warning "^1.0.3"
+    tslib "^2.3.0"
+
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.1"
   resolved "https://registry.npmmirror.com/@rollup/plugin-babel/-/plugin-babel-5.3.1.tgz#04bc0608f4aa4b2e4b1aebf284344d0f68fda283"
@@ -2094,7 +2110,7 @@ esbuild-windows-arm64@0.14.47:
   resolved "https://registry.npmmirror.com/esbuild-windows-arm64/-/esbuild-windows-arm64-0.14.47.tgz#86d9db1a22d83360f726ac5fba41c2f625db6878"
   integrity sha512-HFSW2lnp62fl86/qPQlqw6asIwCnEsEoNIL1h2uVMgakddf+vUuMcCbtUY1i8sst7KkgHrVKCJQB33YhhOweCQ==
 
-esbuild@^0.14.43:
+esbuild@^0.14.47:
   version "0.14.47"
   resolved "https://registry.npmmirror.com/esbuild/-/esbuild-0.14.47.tgz#0d6415f6bd8eb9e73a58f7f9ae04c5276cda0e4d"
   integrity sha512-wI4ZiIfFxpkuxB8ju4MHrGwGLyp1+awEHAHVpx6w7a+1pmYIq8T9FGEVVwFo0iFierDoMj++Xq69GXWYn2EiwA==
@@ -2279,9 +2295,9 @@ fragment-cache@^0.2.1:
     map-cache "^0.2.2"
 
 framer-motion@^6.3.11:
-  version "6.3.14"
-  resolved "https://registry.npmmirror.com/framer-motion/-/framer-motion-6.3.14.tgz#615e6ba8a009bdf91fa413dac782d27f68b439e8"
-  integrity sha512-CCP5mFtVz3XwCYzLZ8rjVBa9AQguu8D0JdTF/XiBaBMF5JziUZR6rNyckSOjyYv5t+D7S2urOVXZv94GZvNQqw==
+  version "6.3.16"
+  resolved "https://registry.npmmirror.com/framer-motion/-/framer-motion-6.3.16.tgz#2e6e3b6e106aaaa0b36c72f52b79da162587efde"
+  integrity sha512-1kuXvOVss/Rzi+XHuYq6RPjwnZGkfnfvtBpCpZm+kYhLGA6ICHwfAJtG1ohz1ruSAFVMz3RSpanTf6TOPG979A==
   dependencies:
     framesync "6.0.1"
     hey-listen "^1.0.8"
@@ -2946,9 +2962,9 @@ loose-envify@^1.1.0:
     js-tokens "^3.0.0 || ^4.0.0"
 
 lottie-web@^5.9.4:
-  version "5.9.4"
-  resolved "https://registry.npmmirror.com/lottie-web/-/lottie-web-5.9.4.tgz#c01478ee5dd47f916cb4bb79040c11d427872d57"
-  integrity sha512-bSs1ZTPifnBVejO1MnQHdfrKfcn02YTCmgOh2wcAEICqRA0V7GzDh8FnwXY6+EzT+i8XOunaIloo/5xC5YNbsA==
+  version "5.9.5"
+  resolved "https://registry.npmmirror.com/lottie-web/-/lottie-web-5.9.5.tgz#9c822064e641f3b2d01644636ed8bdbb876147d3"
+  integrity sha512-4GI1jC2+YV9DyTXEz4HnAuaoOMT6yBs9KxG50rsmM7eRjUhyBpbETSVuzHAkamfP+nyNuQ84jhQxDnfjBrJdQg==
 
 magic-string@^0.25.0, magic-string@^0.25.7:
   version "0.25.9"
@@ -3383,6 +3399,13 @@ randombytes@^2.1.0:
   integrity sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==
   dependencies:
     safe-buffer "^5.1.0"
+
+react-day-picker@^8.0.7:
+  version "8.0.7"
+  resolved "https://registry.npmmirror.com/react-day-picker/-/react-day-picker-8.0.7.tgz#6f2fb98b33a6f7e1a4e03d557bd78fffeb21ccda"
+  integrity sha512-isrLVhWpfdsxtG8YarHh5c0erL5aV1nrfolR/yK3KGTUqb7UGiCFnleBSH/Bv45tNpC2CZNFne01dsQEiocjYw==
+  dependencies:
+    "@reach/auto-id" "0.16.0"
 
 react-dom@^18.1.0:
   version "18.2.0"
@@ -3953,6 +3976,11 @@ terser@^5.0.0:
     commander "^2.20.0"
     source-map-support "~0.5.20"
 
+tiny-warning@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmmirror.com/tiny-warning/-/tiny-warning-1.0.3.tgz#94a30db453df4c643d0fd566060d60a875d84754"
+  integrity sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==
+
 to-fast-properties@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmmirror.com/to-fast-properties/-/to-fast-properties-2.0.0.tgz#dc5e698cbd079265bc73e0377681a4e4e83f616e"
@@ -4012,7 +4040,7 @@ traverse@^0.6.6:
   resolved "https://registry.npmmirror.com/traverse/-/traverse-0.6.6.tgz#cbdf560fd7b9af632502fed40f918c157ea97137"
   integrity sha512-kdf4JKs8lbARxWdp7RKdNzoJBhGUcIalSYibuGyHJbmk40pOysQ0+QPvlkCOICOivDWU2IJo2rkrxyTK2AH4fw==
 
-tslib@^2.1.0:
+tslib@^2.1.0, tslib@^2.3.0:
   version "2.4.0"
   resolved "https://registry.npmmirror.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
   integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
@@ -4156,12 +4184,12 @@ vite-plugin-svg-icons@^2.0.1:
     svg-baker "1.7.0"
     svgo "^2.8.0"
 
-vite@3.0.0-beta.1:
-  version "3.0.0-beta.1"
-  resolved "https://registry.npmmirror.com/vite/-/vite-3.0.0-beta.1.tgz#0126c0e70d7478421faf419992e6f2f5758159dc"
-  integrity sha512-7p9hoj4vHQdPWbWIkP33Y1vxD8JbPRHUl5IhO9xs5uuwFwzUiYC27z9bVnmB9VAj170fmI9VNhAJIvC/Kb9unA==
+vite@3.0.0-beta.5:
+  version "3.0.0-beta.5"
+  resolved "https://registry.npmmirror.com/vite/-/vite-3.0.0-beta.5.tgz#708d5b732dee98d77877cb094b567f5596508b5b"
+  integrity sha512-SfesZuCME4fEmLy4hgsJAg55HRiTgDhH3oPM44XePrdKP5FqYvDkzpSWl6ldDOJYTskKWafGyyuYfXoxodv40Q==
   dependencies:
-    esbuild "^0.14.43"
+    esbuild "^0.14.47"
     postcss "^8.4.14"
     resolve "^1.22.1"
     rollup "^2.75.6"
