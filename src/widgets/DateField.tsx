@@ -5,4 +5,4 @@ type Props = {
   input: FieldInputProps<any, HTMLInputElement>
 }
 
-export const DateField = ({input}: Props) => <DatePicker date={input.value} handleSelect={input.onChange}/ >
+export const DateField = ({input}: Props) => <DatePicker date={input.value} handleSelect={input.onChange}/>

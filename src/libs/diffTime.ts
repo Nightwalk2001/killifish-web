@@ -1,7 +1,7 @@
 import {differenceInDays} from "date-fns"
 
 export const diffTime = (date?: string) => {
-    if (!date) return ""
+    if (!date) return "unset"
 
     let time = Date.parse(date)
 
@@ -12,13 +12,13 @@ export const diffTime = (date?: string) => {
 
     const now = new Date()
     const days = differenceInDays(now, time)
+    if (days === 0) result = "today"
+    else if (days < 30) result += `${days}d`
 
-    if (days > 30) {
+    else if (days < 365) {
         month = Math.floor(days / 30)
         day = days % 30
-    }
-
-    if (days > 365) {
+    } else {
         year = Math.floor(days / 365)
         let rest = days % 365
 

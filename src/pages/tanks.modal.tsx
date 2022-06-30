@@ -58,12 +58,20 @@ const formRender = ({
       <Field name={"label"} component={InputField}/>
     </div>
 
-    <div className={"flex justify-between items-center my-5"}>
+  </div>
+
+  <div className={"flex items-center my-5"}>
+    <div>
       <div>birthday</div>
       <Field name={"birthday"} component={DateField}/>
     </div>
-
   </div>
+
+  <div className={"flex items-center"}>
+    <div>feeding times</div>
+    <TimePicker/>
+  </div>
+
   <div className={"flex justify-between space-x-6 px-24"}>
     <button
       type={"submit"}
@@ -80,7 +88,6 @@ const formRender = ({
       Reset
     </button>
   </div>
-  <TimePicker/>
 </form>
 
 
@@ -110,6 +117,23 @@ export const ModifyTankModal = ({
       </Badge>)}
     </motion.div>
 
+    <Form
+      initialValues={{
+        size: "maintain",
+        sexual: "maintain",
+        birthday: new Date(),
+        genotype: "",
+        species: "maintain",
+        label: "",
+      }}
+      onSubmit={onSubmit}
+      render={formRender}
+    />
+  </Modal>
+}
+
+export const AddTankModal = ({onSubmit}: Props) => {
+  return <Modal name={ModalEnum.TankAdd} className={"w-[600px]"}>
     <Form
       initialValues={{
         size: "maintain",

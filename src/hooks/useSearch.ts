@@ -56,14 +56,6 @@ export const updateTank = (tank: Tank) => meiliClient.updateDocuments([tank])
 
 export const updateTanks = (tanks: Tank[]) => meiliClient.updateDocuments(tanks)
 
-export const releaseTank = (tank: Tank) => meiliClient.updateDocuments([tank])
-
-export const releaseTanks = (tanks: Tank[]) => meiliClient.updateDocuments(tanks)
-
-export const bindTank = (tank: Tank) => meiliClient.updateDocuments([tank])
-
-export const bindTanks = (tanks: Tank[]) => meiliClient.updateDocuments(tanks)
-
 export const deleteTank = (id: string) => meiliClient.deleteDocument(id)
 
 export const deleteTanks = (ids: string[]) => meiliClient.deleteDocuments(ids)
