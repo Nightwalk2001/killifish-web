@@ -5,5 +5,5 @@ export const useInput = (init: string) => {
 
     const handleValue = (ev: ChangeEvent<HTMLInputElement>) => setValue(ev.target.value)
 
-    return [value, handleValue] as const
+    return [value, handleValue, setValue] as const
 }

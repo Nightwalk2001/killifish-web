@@ -1,10 +1,26 @@
 import {updateTank} from "@/hooks"
-import {Editable} from "@/widgets/Editable"
+import {Editable} from "./Editable"
 import {useState} from "react"
 
-export const TankProfile = ({id, owner, sexual, genotype, species, size, amount, birthday, label}: Tank) => {
+type Props = {
+  tank: Tank
+}
+
+export const TankProfile = ({
+                              tank: {
+                                id,
+                                owner,
+                                sexual,
+                                genotype,
+                                species,
+                                size,
+                                amount,
+                                birthday,
+                                label
+                              }
+                            }: Props) => {
   const [g, setG] = useState(genotype ?? ""),
-        [f,setF] = useState(sexual ?? "")
+        [f, setF] = useState(sexual ?? "")
 
   const onG = async (n: string) => {
     setG(n)
@@ -14,7 +30,7 @@ export const TankProfile = ({id, owner, sexual, genotype, species, size, amount,
     console.log(res)
   }
 
-  return <div className={"w-1/2"}>
+  return <div className={"grid grid-cols-6"}>
 
     <div>
       <h2>Basic Info</h2>

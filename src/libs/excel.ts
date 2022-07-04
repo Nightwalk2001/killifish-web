@@ -3,11 +3,11 @@ import {read, utils, write, WritingOptions} from "xlsx"
 
 const opts: WritingOptions = {bookType: "xlsx", bookSST: false, type: "array"}
 
-export const import_data = (ev: ProgressEvent<FileReader>) => {
+export const import_data = <T = any>(ev: ProgressEvent<FileReader>) => {
     const data = ev.target?.result
     const workbook = read(data, {type: "binary"})
     const name = workbook.SheetNames[0]
-    return utils.sheet_to_json(workbook.Sheets[name])
+    return utils.sheet_to_json<T>(workbook.Sheets[name])
 }
 
 export const export_data = <T>(data: T[], name: string) => {

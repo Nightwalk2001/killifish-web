@@ -4,7 +4,7 @@ import {API_URL} from "./constant"
 const withoutAuthUrls = ["/signin"]
 
 const resHandler   = (res: Response) => res.json(),
-    errorhandler = (err: any) => console.log(JSON.stringify(err))
+      errorhandler = (err: any) => console.log(JSON.stringify(err))
 
 const requester = async <T = any>(url: string, options?: RequestInit) => {
     let headers: Record<string, any> | undefined
@@ -26,7 +26,11 @@ export const getter = <T>(
 export const poster = <T, K = any>(
     url: string,
     data: K
-) => requester<T>(url, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(data)})
+) => requester<T>(url, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+})
 
 export const putter = <T>(
     url: string,

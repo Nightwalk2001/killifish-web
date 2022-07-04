@@ -1,0 +1,1 @@
+/Users/goland/killifish-go/build/killifish
