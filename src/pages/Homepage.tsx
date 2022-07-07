@@ -32,7 +32,7 @@ export const Homepage = () => {
 
       <h2 className={"text-xl"}>Todo List</h2>
       <div>
-        {todos && todos.slice(10).map(d => <div key={d._id}>
+        {todos && todos.map(d => <div key={d._id}>
           {d.content}
         </div>)}
       </div>
@@ -53,16 +53,7 @@ export const Homepage = () => {
             <PieChart data={distribution["species"]}/>
         </div>
       }
-      {/*<h2>main species:*/}
-      {/*  <span*/}
-      {/*    className={"uppercase text-gray-700 font-medium"}>*/}
-      {/*  {distribution && mainPart(distribution["species"])}*/}
-      {/*</span>*/}
-      {/*</h2>*/}
-      {/*<RatioChart*/}
-      {/*  name={"demo"}*/}
-      {/*  data={[{name: "variety_a", value: 123}, {name: "variety_b", value: 88}]}*/}
-      {/*/>*/}
+
     </div>
   </div>
 }

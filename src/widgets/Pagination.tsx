@@ -4,12 +4,13 @@ import {Icon} from "@/widgets/Icons";
 
 type Props = {
   total: number,
+  current?: number
   onPageChange?: (page: number) => void
   pagesize?: number
 }
 
-export const Pagination = ({total, onPageChange, pagesize = 11}: Props) => {
-  const [page, setPage] = useState(1)
+export const Pagination = ({total, current = 1, onPageChange, pagesize = 11}: Props) => {
+  const [page, setPage] = useState(current)
 
   const buttonList = range(Math.ceil(total / pagesize)).map(i => i + 1)
 

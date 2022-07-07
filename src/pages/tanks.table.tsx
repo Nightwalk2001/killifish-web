@@ -57,7 +57,7 @@ type Props = {
   tank: Tank
   handleSelect: (id: string) => void
   checked: boolean
-  handleEdit: (id: string) => void
+  handleEdit: (t: Tank) => void
 }
 
 const color = scaleOrdinal<number, string>()
@@ -65,12 +65,14 @@ const color = scaleOrdinal<number, string>()
   .range(["#f899d7", "#a0b9f1", "#d3a9fd"])
 
 export const TankRow = ({
-                          tank: {id, amount, genotype, sexual, size, birthday},
+                          tank,
                           handleSelect,
                           checked,
                           handleEdit
-                        }: Props) =>
-  <div className={"table-row whitespace-nowrap text-gray-700 odd:bg-gray-50/50"}>
+                        }: Props) => {
+  const {id, amount, genotype, sexual, size, birthday, feedTimes} = tank
+
+  return <div className={"table-row whitespace-nowrap text-gray-700 odd:bg-gray-50/50"}>
     <div className={clsx(tdStyle, "inline-flex place-content-center py-2")}>
       <input
         type="checkbox"
@@ -87,7 +89,7 @@ export const TankRow = ({
     </div>
     <div className={tdStyle}>{amount}</div>
     <div className={clsx(tdStyle, "truncate")}>{genotype}</div>
-    <div className={tdStyle}>{sexual ??
+    <div className={tdStyle}>{sexual ? sexual :
       <div className={"text-gray-400/50 italic"}>&lt;null&gt;</div>}</div>
 
     <div className={tdStyle}>{diffTime(birthday)}</div>
@@ -103,7 +105,7 @@ export const TankRow = ({
         </Link>
         <button
           className={"inline-flex items-center px-1 text-sm text-indigo-400 border border-indigo-400 rounded-sm"}
-          onClick={() => handleEdit(id)}
+          onClick={() => handleEdit(tank)}
         >
           edit
           <Icon name={"edit"} className={"w-3.5 h-3.5"}/>
@@ -111,3 +113,4 @@ export const TankRow = ({
       </div>
     </div>
   </div>
+}

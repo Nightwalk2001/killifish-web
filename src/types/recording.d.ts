@@ -8,4 +8,5 @@ declare type Recording = {
     trigger: string
     time: string
     succeed: boolean
+
 }

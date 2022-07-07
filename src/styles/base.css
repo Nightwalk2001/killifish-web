@@ -25,6 +25,19 @@ body, .overlay {
     background-color: #42e8e8;
 }
 
+.picker::-webkit-scrollbar {
+    width: 0;
+    /*border-radius: 50%;*/
+}
+
+/*.picker::-webkit-scrollbar-thumb {*/
+
+/*}*/
+
+/*.picker::-webkit-scrollbar-thumb:hover {*/
+
+/*}*/
+
 div::selection,
 h1::selection,
 p::selection,

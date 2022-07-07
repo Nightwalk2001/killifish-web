@@ -4,12 +4,11 @@ export enum ModalEnum {
     DEFAULT_CLOSED,
     SignUp,
     TankAdd,
-    TankModify,
-    TankBatchModify,
+    TankUpdate,
+    TankBatchUpdate,
     TankDelete,
     ALERT
 }
-
 
 export type ModalStore = {
     type: ModalEnum

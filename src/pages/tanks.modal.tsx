@@ -1,11 +1,23 @@
-import {ModalEnum} from "@/stores"
-import {Badge, DateField, Icon, InputField, Modal, SelectField, TimePicker} from "@/widgets"
+import {ModalEnum, selectedTanksAtom} from "@/stores"
+import {Badge, DateField, Icon, InputField, Modal, SelectField, TimeField} from "@/widgets"
 import {Field, Form, FormRenderProps} from "react-final-form"
 import React from "react"
 import {useModal} from "@/hooks"
 import {motion} from "framer-motion"
 import {useRecoilState} from "recoil"
-import {selectedTanksAtom} from "@/stores/tanks"
+import arrayMutators from "final-form-arrays"
+import {FieldArray} from "react-final-form-arrays"
+
+const sizes   = [1.5, 3, 10],
+      sexuals = [
+        "male", "female", "unset"
+      ],
+      species = [
+        "Nothobranchius furzeri GRZ",
+        "Nothobranchius eggersi Makurunge",
+        "Nothobranchius derhami",
+        "unset"
+      ]
 
 type FormValues = {
   amount?: number
@@ -18,26 +30,46 @@ type FormValues = {
   label?: string
 }
 
+type RenderProps = FormRenderProps<any, FormValues>
+
 const formRender = ({
                       handleSubmit,
-                      form,
+                      form: {
+                        mutators: {push, pop},
+                        reset
+                      },
                       submitting,
                       pristine,
                       values
-                    }: FormRenderProps<any, FormValues>) => <form onSubmit={handleSubmit}>
+                    }: RenderProps,
+                    batch    = true,
+                    isUpdate = false
+) => <form onSubmit={handleSubmit}>
   <div className={"grid grid-cols-2 place-content-center gap-x-6 gap-y-5"}>
+    {!batch &&
+      <div className={"flex justify-between items-center"}>
+        <div>tank id</div>
+        <Field name={"id"} component={InputField} upper={true} readOnly={isUpdate}/>
+      </div>}
     <div className={"flex justify-between items-center"}>
       <div>amount</div>
       <Field name={"amount"} component={InputField}/>
     </div>
     <div className={"flex justify-between items-center"}>
       <div>size</div>
-      <Field name={"size"} component={SelectField} options={[1.5, 3, 10, "maintain"]}/>
+      <Field
+        name={"size"}
+        component={SelectField}
+        options={batch ? [...sizes, "maintain"] : sizes}
+      />
     </div>
     <div className={"flex justify-between items-center"}>
       <div>sexual</div>
-      <Field name={"sexual"} component={SelectField} options={["male", "female", "unknown", "maintain"]}
-             className={"w-48"}/>
+      <Field
+        name={"sexual"}
+        component={SelectField}
+        options={batch ? [...sexuals, "maintain"] : sexuals}
+      />
     </div>
     <div className={"flex justify-between items-center"}>
       <div>genotype</div>
@@ -45,13 +77,11 @@ const formRender = ({
     </div>
     <div className={"flex justify-between items-center"}>
       <div>species</div>
-      <Field name={"species"} component={SelectField} options={[
-        "Nothobranchius furzeri GRZ",
-        "Nothobranchius eggersi Makurunge",
-        "Nothobranchius derhami",
-        "unset",
-        "maintain"
-      ]}/>
+      <Field
+        name={"species"}
+        component={SelectField}
+        options={batch ? [...species, "maintain"] : species}
+      />
     </div>
     <div className={"flex justify-between items-center"}>
       <div>label</div>
@@ -66,10 +96,35 @@ const formRender = ({
       <Field name={"birthday"} component={DateField}/>
     </div>
   </div>
-
-  <div className={"flex items-center"}>
+  <button
+    type="button"
+    onClick={() => push("feedTimes", undefined)}
+  >
+    Add Customer
+  </button>
+  <div className={"h-20 mb-4 overflow-y-scroll"}>
     <div>feeding times</div>
-    <TimePicker/>
+    <FieldArray name="feedTimes">
+      {({fields}) =>
+        <div className={"grid grid-cols-5"}>
+          {
+            fields.map((name, i) => <div
+              key={name}
+              className={"flex items-center"}>
+              <Field
+                name={name}
+                component={TimeField}
+              />
+              <Icon
+                name={"x"}
+                role={"button"}
+                className={"size-6 text-gray-600"}
+                onClick={() => fields.remove(i)}/>
+            </div>)
+          }
+        </div>
+      }
+    </FieldArray>
   </div>
 
   <div className={"flex justify-between space-x-6 px-24"}>
@@ -81,7 +136,7 @@ const formRender = ({
     </button>
     <button
       type="reset"
-      onClick={form.reset}
+      onClick={reset}
       disabled={submitting || pristine}
       className={"w-full py-1.25 text-gray-500 border border-gray-300 rounded-md cursor-pointer"}
     >
@@ -95,9 +150,7 @@ type Props = {
   onSubmit: (values: FormValues) => void
 }
 
-export const ModifyTankModal = ({
-                                  onSubmit
-                                }: Props) => {
+export const TankBatchUpdateModal = ({onSubmit}: Props) => {
   const {closeModal} = useModal()
   const [selected, setSelected] = useRecoilState(selectedTanksAtom)
 
@@ -108,7 +161,7 @@ export const ModifyTankModal = ({
     } else setSelected(prev => prev.filter(i => i != id))
   }
 
-  return <Modal name={ModalEnum.TankBatchModify} className={"w-[650px]"}>
+  return <Modal name={ModalEnum.TankBatchUpdate} className={"w-[650px]"}>
     <div>selected</div>
     <motion.div layout className={"grid grid-cols-5 place-content-center gap-x-1.5 gap-y-2 my-5"}>
       {selected && selected.map(d => <Badge key={d}>
@@ -125,26 +178,35 @@ export const ModifyTankModal = ({
         genotype: "",
         species: "maintain",
         label: "",
+        feedTimes: []
       }}
+      mutators={{...arrayMutators}}
       onSubmit={onSubmit}
       render={formRender}
     />
   </Modal>
 }
 
-export const AddTankModal = ({onSubmit}: Props) => {
-  return <Modal name={ModalEnum.TankAdd} className={"w-[600px]"}>
+export const TankUpdateModal = ({onSubmit}: Props) => {
+  const {param} = useModal<Tank>()
+  return <Modal name={ModalEnum.TankUpdate} className={"w-[600px]"}>
     <Form
       initialValues={{
-        size: "maintain",
-        sexual: "maintain",
-        birthday: new Date(),
-        genotype: "",
-        species: "maintain",
-        label: "",
+        id: param?.id ?? undefined,
+        size: param?.size ?? 1.5,
+        amount: param?.amount ?? "",
+        sexual: param?.sexual ?? "unset",
+        birthday: param?.birthday
+          ? Date.parse(param?.birthday)
+          : null
+          ?? new Date(),
+        genotype: param?.genotype ?? "",
+        species: param?.species ?? "",
+        label: param?.label ?? "",
       }}
+      mutators={{...arrayMutators}}
       onSubmit={onSubmit}
-      render={formRender}
+      render={props => formRender(props, false, !!param?.id)}
     />
   </Modal>
 }

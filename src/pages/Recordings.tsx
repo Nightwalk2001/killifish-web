@@ -1,9 +1,11 @@
-import {useFindOne, useInput, useRequest} from "@/hooks"
+import {useFindOne, useInput, useModal, useRequest} from "@/hooks"
 import {getter} from "@/libs"
 import {Filter, Pagination, Table, TankProfile, Tbody, Thead} from "@/widgets"
 import {ChangeEvent, useLayoutEffect, useState} from "react"
 import {useParams, useSearchParams} from "react-router-dom"
 import {RecordingRow} from "@/pages/recordings.table"
+import {TankUpdateModal} from "@/pages/tanks.modal"
+import {ModalEnum} from "@/stores"
 
 const headers = [
   "owner",
@@ -33,6 +35,8 @@ export const Recordings = () => {
   const {id}                = useParams(),
         [params, setParams] = useSearchParams()
 
+  const {setModalStore} = useModal()
+
   const {data: tank} = useFindOne(id, [id])
 
   const [page, setPage] = useState<number>(1)
@@ -57,8 +61,19 @@ export const Recordings = () => {
     setParams(p)
   }, [page, trigger, result, pagesize])
 
+  const openUpdate = () => setModalStore({type: ModalEnum.TankUpdate, param: tank})
+
+  const handleUpdate = (values: any) => {
+
+  }
+
   return <div className={"w-11/12 mx-auto mt-8 mb-5 "}>
-    {tank && <TankProfile tank={tank}/>}
+    {tank && <>
+      <TankProfile tank={tank}/>
+      <button onClick={openUpdate}>modify</button>
+    </>}
+
+    <TankUpdateModal onSubmit={handleUpdate}/>
 
     <div>
       operations: <button className={"px-3 py-2 text-white bg-sky-300 rounded-md"}>Manually Feed</button>
@@ -116,7 +131,7 @@ export const Recordings = () => {
       </Tbody>
     </Table>
 
-    {data && <Pagination total={data.count} pagesize={+pagesize} onPageChange={setPage}/>}
+    {data && <Pagination total={data.count} pagesize={+pagesize} current={page} onPageChange={setPage}/>}
 
   </div>
 }

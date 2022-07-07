@@ -6,7 +6,7 @@ import React, {useState} from "react"
 import {useRecoilState, useRecoilValue} from "recoil"
 import {toast} from "react-toastify"
 import {DEFAULT, DEFAULT_SORT, pagesizes, sexuals, sizes, sortMap, sorts} from "./tanks.constant"
-import {AddTankModal, ModifyTankModal} from "./tanks.modal"
+import {TankBatchUpdateModal, TankUpdateModal} from "./tanks.modal"
 import {TankRow, Thead} from "./tanks.table"
 
 export const Tanks = () => {
@@ -54,17 +54,17 @@ export const Tanks = () => {
       : [...prev, id]
   )
 
-  const openAdd = () => setModalStore({type: ModalEnum.TankAdd})
-  const openUpdate = () => setModalStore({type: ModalEnum.TankBatchModify, param: selected})
-  const openDelete = () => setModalStore({type: ModalEnum.ALERT})
+  const openAdd = () => setModalStore({type: ModalEnum.TankUpdate})
+  const openUpdate = () => setModalStore({type: ModalEnum.TankBatchUpdate, param: selected})
+  const openDelete = () => setModalStore({type: ModalEnum.ALERT, param: selected})
 
-  const handleEdit = (id: string) => {
-    setSelected([id])
-    setModalStore({type: ModalEnum.TankBatchModify, param: selected})
+  const handleEdit = (tank: Tank) => {
+    setSelected([tank.id])
+    setModalStore({type: ModalEnum.TankUpdate, param: tank})
   }
 
   const handleSelectAll = async () => {
-    if (selected.length) setSelected([])
+    if (selected.length === count) setSelected([])
     else {
       const {hits} = await meiliClient.search(query, {
         filter,
@@ -75,15 +75,14 @@ export const Tanks = () => {
   }
 
   const confirmUpdate = async (values: any) => {
-    const updateObject = excludeUnset(values)
+    const updateObject = excludeUnset({...values})
 
     const d = tanks?.filter(d => selected.includes(d.id))
       .map(d => ({...d, ...updateObject})) ?? []
-    const res = await updateTanks(d)
-    console.log(res)
+
+    await Promise.all([updateTanks(d), mutate()])
     closeModal()
     toast("successfully updated!")
-    await mutate()
   }
 
   const exportData = () => tanks && export_data(tanks, "tanks.xlsx")
@@ -196,10 +195,10 @@ export const Tanks = () => {
 
     {count > +pagesize && <Pagination pagesize={+pagesize} total={count} onPageChange={setPage}/>}
 
-    <AddTankModal onSubmit={confirmUpdate}/>
+    <TankUpdateModal onSubmit={confirmUpdate}/>
 
-    <ModifyTankModal onSubmit={confirmUpdate}/>
+    <TankBatchUpdateModal onSubmit={confirmUpdate}/>
 
-    <AlertModal message={"Are you sure to delete this tank?"}/>
+    <AlertModal message={(p) => `Are you sure to delete this tank(id: ${p})?`}/>
   </main>
 }

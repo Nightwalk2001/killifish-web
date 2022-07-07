@@ -1,9 +1,11 @@
 import {differenceInDays} from "date-fns"
 
-export const diffTime = (date?: string) => {
+export const diffTime = (date?: string | number) => {
     if (!date) return "unset"
+    let time: number
 
-    let time = Date.parse(date)
+    if (typeof date === "string") time = Date.parse(date)
+    else time = date
 
     let year: number = 0
     let month: number = 0
