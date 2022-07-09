@@ -59,7 +59,7 @@ export const Modal = ({
 
 
 type AlertModalProps = {
-  message: (p: any) => string
+  message: (p: any) => React.ReactNode
   onConfirm?: React.MouseEventHandler<HTMLButtonElement>
 }
 

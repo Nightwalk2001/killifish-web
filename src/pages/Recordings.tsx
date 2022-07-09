@@ -1,23 +1,12 @@
-import {useFindOne, useInput, useModal, useRequest} from "@/hooks"
-import {getter} from "@/libs"
-import {Filter, Pagination, Table, TankProfile, Tbody, Thead} from "@/widgets"
-import {ChangeEvent, useLayoutEffect, useState} from "react"
+import {updateTank, useFindOne, useInput, useModal, useRequest} from "@/hooks"
+import {excludeUnset, getter, manuallyFeed} from "@/libs"
+import {Filter, Modal, Pagination, Table, TankProfile, Tbody} from "@/widgets"
+import {useEffect, useLayoutEffect, useState} from "react"
 import {useParams, useSearchParams} from "react-router-dom"
-import {RecordingRow} from "@/pages/recordings.table"
-import {TankUpdateModal} from "@/pages/tanks.modal"
+import {RecordingRow, Thead} from "./recordings.table"
+import {TankUpdateModal} from "./tanks.modal"
 import {ModalEnum} from "@/stores"
-
-const headers = [
-  "owner",
-  "genotype",
-  "age",
-  "quantity",
-  "trigger",
-  "time",
-  "result"
-]
-
-type InputChangeEvent = ChangeEvent<HTMLInputElement>
+import {toast} from "react-toastify"
 
 type RecordingsWithCount = { recordings: Recording[], count: number }
 
@@ -35,9 +24,9 @@ export const Recordings = () => {
   const {id}                = useParams(),
         [params, setParams] = useSearchParams()
 
-  const {setModalStore} = useModal()
+  const {setModalStore, closeModal} = useModal()
 
-  const {data: tank} = useFindOne(id, [id])
+  const {data: tank, mutate} = useFindOne(id, [id])
 
   const [page, setPage] = useState<number>(1)
 
@@ -53,7 +42,7 @@ export const Recordings = () => {
     if (data && data.count / +pagesize < page) setPage(1)
   }, [data, pagesize])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     let p = `page=${page}`
     if (trigger != DEFAULT) p += `&trigger=${trigger.toLowerCase()}`
     if (result != DEFAULT) p += `&result=${result.toLowerCase()}`
@@ -61,26 +50,41 @@ export const Recordings = () => {
     setParams(p)
   }, [page, trigger, result, pagesize])
 
-  const openUpdate = () => setModalStore({type: ModalEnum.TankUpdate, param: tank})
-
-  const handleUpdate = (values: any) => {
-
+  const openUpdate = () => {
+    setModalStore({type: ModalEnum.TankUpdate, param: tank})
   }
 
-  return <div className={"w-11/12 mx-auto mt-8 mb-5 "}>
-    {tank && <>
-      <TankProfile tank={tank}/>
-      <button onClick={openUpdate}>modify</button>
-    </>}
+  const onFeed = () => setModalStore({type: ModalEnum.ManuallyFeed})
+
+  const handleUpdate = async (values: any) => {
+    console.log(values)
+    const updateObject = excludeUnset(values)
+    // if (updateObject.hasOwnProperty("feedTimes")) {
+    //   console.log(updateObject["feedTimes"])
+    // }
+
+    console.log(updateObject)
+
+    const d = {...tank, ...updateObject}
+
+    await Promise.all([updateTank(d as Tank), mutate()])
+    closeModal()
+    toast("successfully updated!")
+  }
+
+  const confirmFeed = (quantity: number) => {
+    manuallyFeed(id!, quantity)
+  }
+
+  return <div className={"w-11/12 mx-auto mt-8"}>
+    {tank && <TankProfile tank={tank} handleEdit={openUpdate} handleFeed={onFeed}/>}
 
     <TankUpdateModal onSubmit={handleUpdate}/>
 
-    <div>
-      operations: <button className={"px-3 py-2 text-white bg-sky-300 rounded-md"}>Manually Feed</button>
-    </div>
+    <FeedModal closeModal={closeModal} afterConfirm={confirmFeed}/>
 
-    <h2>Feeding Info</h2>
-    <div className={"flex space-x-8 my-3"}>
+    <h2 className={"my-3 text-xl text-gray-600/90 font-semibold"}>Feeding Recordings</h2>
+    <div className={"flex space-x-8 my-5"}>
       <Filter
         name={"trigger"}
         initial={DEFAULT}
@@ -125,7 +129,7 @@ export const Recordings = () => {
     </div>
 
     <Table>
-      <Thead headers={headers}/>
+      <Thead/>
       <Tbody>
         {data && data.recordings.map(d => <RecordingRow key={d.time} recording={d}/>)}
       </Tbody>
@@ -134,4 +138,43 @@ export const Recordings = () => {
     {data && <Pagination total={data.count} pagesize={+pagesize} current={page} onPageChange={setPage}/>}
 
   </div>
+}
+
+type Props = {
+  closeModal: () => void
+  afterConfirm: (quantity: number) => void
+}
+
+const FeedModal = ({closeModal, afterConfirm}: Props) => {
+  const [quantity, handleQuantity] = useInput("")
+
+  const handleConfirm = () => {
+    if (isNaN(+quantity) || !quantity) {
+      toast("quantity should be integer!", {
+        type: "error"
+      })
+      return
+    }
+    afterConfirm(+quantity)
+    closeModal()
+  }
+
+  return <Modal name={ModalEnum.ManuallyFeed} className={"w-[300px] ring-1 ring-gray-200 shadow-lg"}
+                title={"Manually Feed"}>
+    <input
+      type="text"
+      placeholder={"feeding quantity"}
+      className={"h-9 pl-2.5 pr-1.5 py-1 caret-gray-400 ring-1.1 ring-inset ring-gray-300 rounded-md transition-all focus:outline-none focus:ring-indigo-300"}
+      onChange={handleQuantity}
+    />
+
+    <div className={"flex items-center space-x-4 mt-2"}>
+      <button onClick={closeModal} className={"px-1 py-0.5 rounded-md text-rose-400 border border-rose-400"}>
+        cancel
+      </button>
+      <button onClick={handleConfirm} className={"px-1 py-0.5 rounded-md text-cyan-300 border border-cyan-300"}>
+        confirm
+      </button>
+    </div>
+  </Modal>
 }

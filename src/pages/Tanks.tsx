@@ -1,4 +1,4 @@
-import {updateTanks, useFile, useInput, useModal, useName, useSearch} from "@/hooks"
+import {deleteTanks, updateTanks, useFile, useInput, useModal, useName, useSearch} from "@/hooks"
 import {clsx, excludeUnset, export_data, import_data, meiliClient} from "@/libs"
 import {ModalEnum, queryAtom, selectedTanksAtom} from "@/stores"
 import {AlertModal, Filter, Icon, Pagination, Table, Tbody} from "@/widgets"
@@ -23,8 +23,10 @@ export const Tanks = () => {
         [pagesize, handlePagesize] = useInput("10"),
         [sortBy, handleSortBy]     = useInput(DEFAULT_SORT)
 
-  const {ref, openUpload, handleFile} = useFile(ev => {
+  const {ref, openUpload, handleFile} = useFile(async ev => {
     const data = import_data(ev)
+    await updateTanks(data)
+    toast("successfully import data")
   })
 
   const filter = clsx(
@@ -75,7 +77,7 @@ export const Tanks = () => {
   }
 
   const confirmUpdate = async (values: any) => {
-    const updateObject = excludeUnset({...values})
+    const updateObject = excludeUnset(values)
 
     const d = tanks?.filter(d => selected.includes(d.id))
       .map(d => ({...d, ...updateObject})) ?? []
@@ -85,42 +87,19 @@ export const Tanks = () => {
     toast("successfully updated!")
   }
 
-  const exportData = () => tanks && export_data(tanks, "tanks.xlsx")
+  const confirmDelete = async () => {
+    await deleteTanks(selected)
+    closeModal()
+    toast("successfully delete")
+  }
 
-  const searchPanel = <div className={"flex items-center space-x-8 my-5"}>
-    <Filter
-      name={"size"}
-      initial={DEFAULT}
-      options={sizes}
-      current={size}
-      onChange={handleSize}
-    />
-
-    <Filter
-      name={"sexual"}
-      initial={DEFAULT}
-      options={sexuals}
-      current={sexual}
-      onChange={handleSexual}
-    />
-
-    <Filter
-      name={"sort by"}
-      initial={DEFAULT_SORT}
-      options={sorts}
-      current={sortBy}
-      onChange={handleSortBy}
-    />
-
-    {count > 25 && <Filter
-      name={"page size"}
-      className={"w-24"}
-      initial={"10"}
-      options={pagesizes}
-      current={pagesize}
-      onChange={handlePagesize}
-    />}
-  </div>
+  const exportData = async () => {
+    const {hits} = await meiliClient.search(query, {
+      filter,
+      sort: sort ? [sort] : undefined, limit: count
+    })
+    export_data(hits, "tanks.xlsx")
+  }
 
   return <main className={"px-12 lg:px-24 my-4"}>
     <div className={"flex items-center space-x-4 my-4"}>
@@ -159,7 +138,8 @@ export const Tanks = () => {
       <div className={"flex items-center"}>
         <input
           type="file"
-          accept={"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"}
+          accept={"application/vnd.openxmlformats-officedocument." +
+            "spreadsheetml.sheet,application/vnd.ms-excel"}
           ref={ref}
           className={"hidden"}
           onChange={handleFile}
@@ -176,7 +156,40 @@ export const Tanks = () => {
       </button>
     </div>
 
-    {searchPanel}
+    <div className={"flex items-center space-x-8 my-5"}>
+      <Filter
+        name={"size"}
+        initial={DEFAULT}
+        options={sizes}
+        current={size}
+        onChange={handleSize}
+      />
+
+      <Filter
+        name={"sexual"}
+        initial={DEFAULT}
+        options={sexuals}
+        current={sexual}
+        onChange={handleSexual}
+      />
+
+      <Filter
+        name={"sort by"}
+        initial={DEFAULT_SORT}
+        options={sorts}
+        current={sortBy}
+        onChange={handleSortBy}
+      />
+
+      {count > 25 && <Filter
+        name={"page size"}
+        className={"w-24"}
+        initial={"10"}
+        options={pagesizes}
+        current={pagesize}
+        onChange={handlePagesize}
+      />}
+    </div>
 
     <Table>
       <Thead/>
@@ -199,6 +212,9 @@ export const Tanks = () => {
 
     <TankBatchUpdateModal onSubmit={confirmUpdate}/>
 
-    <AlertModal message={(p) => `Are you sure to delete this tank(id: ${p})?`}/>
+    <AlertModal
+      message={(p) => `Are you sure to delete these tanks(id: ${p})?`}
+      onConfirm={confirmDelete}
+    />
   </main>
 }

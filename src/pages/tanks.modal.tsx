@@ -1,5 +1,5 @@
 import {ModalEnum, selectedTanksAtom} from "@/stores"
-import {Badge, DateField, Icon, InputField, Modal, SelectField, TimeField} from "@/widgets"
+import {Badge, DateField, Icon, InputField, Modal, SelectField, TextareaFiled, TimeField} from "@/widgets"
 import {Field, Form, FormRenderProps} from "react-final-form"
 import React from "react"
 import {useModal} from "@/hooks"
@@ -71,42 +71,50 @@ const formRender = ({
         options={batch ? [...sexuals, "maintain"] : sexuals}
       />
     </div>
-    <div className={"flex justify-between items-center"}>
-      <div>genotype</div>
-      <Field name={"genotype"} component={InputField}/>
+  </div>
+
+  <div className={"my-5 space-y-6"}>
+    <div className={"flex w-full"}>
+      <div className={"w-1/5"}>birthday</div>
+      <div className={"w-full"}>
+        <Field name={"birthday"} component={DateField}/>
+      </div>
     </div>
-    <div className={"flex justify-between items-center"}>
-      <div>species</div>
+
+    <div className={"flex"}>
+      <div className={"w-1/5"}>species</div>
       <Field
         name={"species"}
         component={SelectField}
         options={batch ? [...species, "maintain"] : species}
+        className={"w-full"}
       />
     </div>
-    <div className={"flex justify-between items-center"}>
-      <div>label</div>
-      <Field name={"label"} component={InputField}/>
+
+    <div className={"flex"}>
+      <div className={"w-1/5"}>genotype</div>
+      <Field name={"genotype"} component={TextareaFiled}/>
     </div>
 
-  </div>
-
-  <div className={"flex items-center my-5"}>
-    <div>
-      <div>birthday</div>
-      <Field name={"birthday"} component={DateField}/>
+    <div className={"flex"}>
+      <div className={"w-1/5"}>label</div>
+      <Field name={"label"} component={InputField} className={"w-full"}/>
     </div>
   </div>
-  <button
-    type="button"
-    onClick={() => push("feedTimes", undefined)}
-  >
-    Add Customer
-  </button>
-  <div className={"h-20 mb-4 overflow-y-scroll"}>
+
+  <div className={"flex items-center space-x-4 my-1"}>
     <div>feeding times</div>
+    <Icon
+      name={"add-circle"}
+      role={"button"}
+      className={"size-5 text-indigo-400"}
+      onClick={() => push("feedTimes", undefined)}
+    />
+  </div>
+  <div className={"h-20 overflow-y-scroll mb-4"}>
     <FieldArray name="feedTimes">
       {({fields}) =>
-        <div className={"grid grid-cols-5"}>
+        <div className={"grid grid-cols-6"}>
           {
             fields.map((name, i) => <div
               key={name}
@@ -189,19 +197,21 @@ export const TankBatchUpdateModal = ({onSubmit}: Props) => {
 
 export const TankUpdateModal = ({onSubmit}: Props) => {
   const {param} = useModal<Tank>()
+
   return <Modal name={ModalEnum.TankUpdate} className={"w-[600px]"}>
     <Form
       initialValues={{
         id: param?.id ?? undefined,
-        size: param?.size ?? 1.5,
+        size: param?.size ? param.size : 1.5,
         amount: param?.amount ?? "",
-        sexual: param?.sexual ?? "unset",
+        sexual: param?.sexual ? param.sexual : "unset",
         birthday: param?.birthday
           ? Date.parse(param?.birthday)
           : null
           ?? new Date(),
         genotype: param?.genotype ?? "",
-        species: param?.species ?? "",
+        species: param?.species ? param.species : "unset",
+        feedTimes: param?.feedTimes?.length ? param.feedTimes : [],
         label: param?.label ?? "",
       }}
       mutators={{...arrayMutators}}

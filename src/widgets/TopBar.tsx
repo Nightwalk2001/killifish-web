@@ -20,14 +20,14 @@ export const TopBar = () => {
   return <div
     className={`${profile ? "visible" : "invisible"}
     sticky left-0 top-0 z-100 flex-center justify-between
-     w-full pt-3 pb-2 pl-10 lg:pl-20 bg-white/30 backdrop-blur-md shadow`}>
+     w-full pt-3 pb-2 pl-10 lg:pl-20 pr-4 lg:pr-8 bg-white/30 backdrop-blur-md shadow`}>
     <div className={"flex-center space-x-1 font-medium text-gray-600 select-none"}>
 
-      <button
-        className={"px-2.5 py-0.5 rounded-sm hover:text-white hover:bg-cyan-400/80 cursor-pointer"}
-        onClick={() => navigate("/")}>
-        Home
-      </button>
+      {/*<button*/}
+      {/*  className={"px-2.5 py-0.5 rounded-sm hover:text-white hover:bg-cyan-400/80 cursor-pointer"}*/}
+      {/*  onClick={() => navigate("/")}>*/}
+      {/*  Home*/}
+      {/*</button>*/}
       <button
         className={"px-2.5 py-0.5 rounded-sm hover:text-white hover:bg-cyan-400/80 cursor-pointer"}
         onClick={() => navigate("/")}

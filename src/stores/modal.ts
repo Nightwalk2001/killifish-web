@@ -6,7 +6,7 @@ export enum ModalEnum {
     TankAdd,
     TankUpdate,
     TankBatchUpdate,
-    TankDelete,
+    ManuallyFeed,
     ALERT
 }
 

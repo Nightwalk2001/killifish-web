@@ -1,5 +1,5 @@
 import {clsx, diffTime} from "@/libs"
-import {Icon, tdStyle, thStyle} from "@/widgets"
+import {Icon, Null, tdStyle, thStyle} from "@/widgets"
 import React from "react"
 import {scaleOrdinal} from "d3-scale"
 import {Link} from "react-router-dom"
@@ -14,34 +14,34 @@ export const Thead = () => <div className={"table-header-group text-center"}>
       </div>
     </div>
     <div role={"button"} className={clsx(thStyle, "w-1/10")}>
-      <div className={"flex items-center space-x-0.5 w-fit mx-auto"}>
+      <div role={"button"} className={"flex items-center space-x-0.5 w-fit mx-auto"}>
         <Icon name={"label"} className={"size-4 text-[#80cbc4]"}/>
         <span>size</span>
         <Icon name={"numeric-sort"} className={"size-4"}/>
       </div>
     </div>
     <div className={clsx(thStyle, "w-1/10")}>
-      <div className={"flex items-center space-x-0.5 w-fit mx-auto"}>
+      <div role={"button"} className={"flex items-center space-x-0.5 w-fit mx-auto"}>
         <Icon name={"label"} className={"size-4 text-[#80cbc4]"}/>
         <span>amount</span>
-        <Icon name={"alpha-sort"} className={"size-4"}/>
+        <Icon name={"numeric-sort"} className={"size-4"}/>
       </div>
     </div>
     <div className={clsx(thStyle, "w-3/8")}>
-      <div className={"flex items-center space-x-0.5 w-fit mx-auto"}>
+      <div role={"button"} className={"flex items-center space-x-0.5 w-fit mx-auto"}>
         <Icon name={"label"} className={"size-4 text-[#80cbc4]"}/>
         genotype
         <Icon name={"alpha-sort"} className={"size-4"}/>
       </div>
     </div>
     <div className={clsx(thStyle, "w-1/10")}>
-      <div className={"flex items-center space-x-0.5 w-fit mx-auto"}>
+      <div role={"button"} className={"flex items-center space-x-0.5 w-fit mx-auto"}>
         <Icon name={"label"} className={"size-4 text-[#80cbc4]"}/>
         sexual
       </div>
     </div>
     <div className={clsx(thStyle, "w-1/10")}>
-      <div className={"flex items-center space-x-0.5 w-fit mx-auto"}>
+      <div role={"button"} className={"flex items-center space-x-0.5 w-fit mx-auto"}>
         <Icon name={"label"} className={"size-4 text-[#80cbc4]"}/>
         age
         <Icon name={"alpha-sort"} className={"size-4"}/>
@@ -89,8 +89,7 @@ export const TankRow = ({
     </div>
     <div className={tdStyle}>{amount}</div>
     <div className={clsx(tdStyle, "truncate")}>{genotype}</div>
-    <div className={tdStyle}>{sexual ? sexual :
-      <div className={"text-gray-400/50 italic"}>&lt;null&gt;</div>}</div>
+    <div className={tdStyle}>{sexual ? sexual : <Null/>}</div>
 
     <div className={tdStyle}>{diffTime(birthday)}</div>
     <div className={tdStyle}>

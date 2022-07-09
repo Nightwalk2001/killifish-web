@@ -6,8 +6,9 @@ import {createSvgIconsPlugin} from "vite-plugin-svg-icons"
 export default defineConfig({
     resolve: {
         alias: [
-            {find: "@", replacement: resolve(__dirname, "src")}
-        ]
+            {find: "@", replacement: resolve(__dirname, "src")},
+            {find: "mqtt", replacement: "mqtt/dist/mqtt.min"}
+        ],
     },
     plugins: [
         react(),
@@ -16,7 +17,7 @@ export default defineConfig({
             symbolId: "icon-[name]"
         })
     ],
-    legacy:{
-        buildRollupPluginCommonjs:true
+    legacy: {
+        buildRollupPluginCommonjs: true
     }
 })

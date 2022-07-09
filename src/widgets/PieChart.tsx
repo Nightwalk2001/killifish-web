@@ -30,20 +30,20 @@ const defaultColors = [
 ]
 
 export const PieChart = ({
-  data,
-  size = 400,
-  margin = 20,
-  padAngle = 0.02,
-  radius = size / 2 - margin,
-  cornerRadius = 2,
-  colors = defaultColors,
-  opacity = 0.65,
-  hoverScale = 1.03,
-  hoverOpacity = 0.95
-}: PieChartProps) => {
+                           data,
+                           size = 400,
+                           margin = 20,
+                           padAngle = 0.02,
+                           radius = size / 2 - margin,
+                           cornerRadius = 2,
+                           colors = defaultColors,
+                           opacity = 0.65,
+                           hoverScale = 1.03,
+                           hoverOpacity = 0.95
+                         }: PieChartProps) => {
   const [sigma, setSigma] = useState<number>(0)
 
-  const dataReady = Object.entries(data),
+  const dataReady = Object.entries(data).slice(0, 10),
         total     = sum(dataReady, d => d[1])
 
   const pies = pie<Data>()
@@ -55,14 +55,14 @@ export const PieChart = ({
           // .endAngle(d => d.endAngle * sigma)
           .padAngle(padAngle)
           .innerRadius(radius * 0.4)
-          .outerRadius(radius * 0.7)
+          .outerRadius(radius * 0.65)
           .cornerRadius(d => d.value / total >= 0.1 ? cornerRadius : 0),
         innerArcFn = arc<PieArcDatum<Data>>()
-          .innerRadius(radius * 0.65)
-          .outerRadius(radius * 0.65),
+          .innerRadius(radius * 0.62)
+          .outerRadius(radius * 0.62),
         outerArcFn = arc<PieArcDatum<Data>>()
-          .innerRadius(radius * 0.72)
-          .outerRadius(radius * 0.72)
+          .innerRadius(radius * 0.68)
+          .outerRadius(radius * 0.68)
 
   const color = scaleOrdinal<string>().range(colors)
 
@@ -82,14 +82,14 @@ export const PieChart = ({
               posBreak = outerArcFn.centroid(d)
 
         const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2
-        posBreak[0] = radius * 0.72 * (midAngle < Math.PI ? 1 : -1)
+        posBreak[0] = radius * 0.65 * (midAngle < Math.PI ? 1 : -1)
 
         const pointsFn = (d: PieArcDatum<Data>) => {
           const posA = innerArcFn.centroid(d)
           const posB = outerArcFn.centroid(d)
           const posC = outerArcFn.centroid(d)
           const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
-          posC[0] = radius * 0.7 * (midangle < Math.PI ? 1 : -1)
+          posC[0] = radius * 0.68 * (midangle < Math.PI ? 1 : -1)
           return `${posA}, ${posB}, ${posC}`
         }
 
@@ -102,7 +102,6 @@ export const PieChart = ({
           />
           <text transform={`translate(${arcFn.centroid(d)})`} textAnchor={"middle"} fill={"#fff"}
                 className={"fill-white text-[11px]"}>
-            {/*{d.value / total >= 0.05 && `${Math.round(d.value / total * 100)}%`}*/}
             {d.value}
           </text>
           <polyline

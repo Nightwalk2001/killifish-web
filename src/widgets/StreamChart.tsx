@@ -39,11 +39,11 @@ export const StreamChart = () => {
     .y1(d => y(d[1]))
     .curve(curveNatural)
 
-  return <div className={"relative"}>
+  return <div className={"relative w-fit mx-auto"}>
     <svg width={w} height={h}>
       <g ref={ref} transform={`translate(${margin.left}, ${margin.top})`}>
         {stacked.map((d, i) => {
-            return <path key={d.key} d={areaFn(d)!} fill={color(d.key)}/>
+          return <path key={d.key} d={areaFn(d)!} fill={color(d.key)}/>
         })}
       </g>
     </svg>

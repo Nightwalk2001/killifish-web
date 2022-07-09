@@ -1,1 +1,18 @@
 @import "react-day-picker/dist/style.css";
+
+:root {
+    --rdp-accent-color: #87e7ef;
+    --rdp-accent-color-dark: #3003e1;
+    --rdp-background-color: #e7edff;
+    /* Switch to dark colors for dark themes */
+    --rdp-background-color-dark: #180270;
+    --rdp-cell-size: 40px;
+    /* Outline border for focused elements */
+    --rdp-outline: 1px solid var(--rdp-accent-color);
+    /* Outline border for focused and selected elements */
+    --rdp-outline-selected: 1px solid rgba(215, 245, 248, 0.75);
+}
+
+.rdp-caption_label {
+    font-weight: 500;
+}

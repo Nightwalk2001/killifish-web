@@ -1,9 +1,62 @@
 import {clsx, diffTime} from "@/libs"
-import {Icon, tdStyle} from "@/widgets"
+import {Icon, Null, tdStyle, thStyle} from "@/widgets"
+import React from "react"
 
 type Props = {
   recording: Recording
 }
+
+export const Thead = () => <div className={"table-header-group text-center"}>
+  <div className={"table-row bg-gray-200/70"}>
+    <div className={clsx(thStyle, "w-1/8")}>
+      <div role={"button"} className={"flex items-center w-fit mx-auto"}>
+        <Icon name={"label"} className={"size-4 text-[#80cbc4]"}/>
+        <span className={"ml-0.5 mr-1"}>owner</span>
+        {/*<Icon name={"alpha-sort"} className={"size-4"}/>*/}
+      </div>
+    </div>
+    <div role={"button"} className={clsx(thStyle, "w-1/10")}>
+      <div role={"button"} className={"flex items-center space-x-0.5 w-fit mx-auto"}>
+        <Icon name={"label"} className={"size-4 text-[#80cbc4]"}/>
+        <span>genotype</span>
+        {/*<Icon name={"numeric-sort"} className={"size-4"}/>*/}
+      </div>
+    </div>
+    <div className={clsx(thStyle, "w-1/10")}>
+      <div role={"button"} className={"flex items-center space-x-0.5 w-fit mx-auto"}>
+        <Icon name={"label"} className={"size-4 text-[#80cbc4]"}/>
+        <span>age</span>
+        <Icon name={"alpha-sort"} className={"size-4"}/>
+      </div>
+    </div>
+    <div className={clsx(thStyle, "w-3/8")}>
+      <div role={"button"} className={"flex items-center space-x-0.5 w-fit mx-auto"}>
+        <Icon name={"label"} className={"size-4 text-[#80cbc4]"}/>
+        quantity
+        <Icon name={"numeric-sort"} className={"size-4"}/>
+      </div>
+    </div>
+    <div className={clsx(thStyle, "w-1/10")}>
+      <div role={"button"} className={"flex items-center space-x-0.5 w-fit mx-auto"}>
+        <Icon name={"label"} className={"size-4 text-[#80cbc4]"}/>
+        trigger
+      </div>
+    </div>
+    <div className={clsx(thStyle, "w-1/10")}>
+      <div role={"button"} className={"flex items-center space-x-0.5 w-fit mx-auto"}>
+        <Icon name={"label"} className={"size-4 text-[#80cbc4]"}/>
+        time
+        <Icon name={"alpha-sort"} className={"size-4"}/>
+      </div>
+    </div>
+    <div className={clsx(thStyle, "w-1/10")}>
+      <div role={"button"} className={"flex items-center space-x-0.5 w-fit mx-auto"}>
+        <Icon name={"label"} className={"size-4 text-[#80cbc4]"}/>
+        time
+      </div>
+    </div>
+  </div>
+</div>
 
 export const RecordingRow = ({
                                recording: {
@@ -21,7 +74,7 @@ export const RecordingRow = ({
   <div className={clsx(tdStyle, "py-2.5")}>{owner}</div>
   <div className={clsx(tdStyle, "max-w-8")}>{genotype}</div>
   <div
-    className={tdStyle}>{diffTime(birthday)}</div>
+    className={tdStyle}>{diffTime(birthday) ?? <Null/>}</div>
   <div className={tdStyle}>{quantity}</div>
   <div
     style={{

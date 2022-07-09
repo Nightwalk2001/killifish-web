@@ -1,5 +1,5 @@
 import {getValue} from "@/libs"
-import {Homepage, NotFound, Recordings, Routine, SignIn, Tanks, Todos, Workspace} from "@/pages"
+import {Management, NotFound, Recordings, Routine, SignIn, Tanks, Todos, Workspace} from "@/pages"
 import {profileAtom} from "@/stores"
 import {TopBar} from "@/widgets"
 import React, {useEffect} from "react"
@@ -18,21 +18,27 @@ const App = () => {
     })()
   }, [])
 
-  const index = profile ? <Homepage/> : <SignIn/>
+  const index = profile
+    ? profile.role === "normal" ? <Workspace/>
+      : profile.role === "manager" ? <Management/>
+        : <SignIn/>
+    : <SignIn/>
 
   return <Router>
-    <TopBar/>
+    <div className={"flex flex-col w-screen h-screen"}>
+      <TopBar/>
 
-    <div className={"w-screen"}>
-      <Routes>
-        <Route path={"/"} element={index}/>
-        <Route path={"/workspace"} element={<Workspace/>}/>
-        <Route path={"/routine"} element={<Routine/>}/>
-        <Route path={"/todos"} element={<Todos/>}/>
-        <Route path={"/tanks/:name"} element={<Tanks/>}/>
-        <Route path={"/recordings/:id"} element={<Recordings/>}/>
-        <Route path={"*"} element={<NotFound/>}/>
-      </Routes>
+      <div className={"w-screen flex-1"}>
+        <Routes>
+          <Route path={"/"} element={index}/>
+          <Route path={"/workspace"} element={<Workspace/>}/>
+          <Route path={"/routine"} element={<Routine/>}/>
+          <Route path={"/todos"} element={<Todos/>}/>
+          <Route path={"/tanks/:name"} element={<Tanks/>}/>
+          <Route path={"/recordings/:id"} element={<Recordings/>}/>
+          <Route path={"*"} element={<NotFound/>}/>
+        </Routes>
+      </div>
     </div>
 
     <ToastContainer autoClose={900} draggable position={"top-right"}/>

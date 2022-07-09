@@ -17,7 +17,7 @@ export const useFindOne = (id: string = "", deps?: any[]) => {
         search().then()
     }, deps)
 
-    return {data}
+    return {data, mutate: search}
 }
 
 export const useSearch = (query?: string, options?: SearchParams, deps?: any[]) => {

@@ -8,5 +8,5 @@ import "./styles/index.css"
 const root = document.getElementById("root") as HTMLDivElement
 
 ReactDOM.createRoot(root).render(
-    <RecoilRoot><App/></RecoilRoot>
+  <RecoilRoot><App/></RecoilRoot>
 )

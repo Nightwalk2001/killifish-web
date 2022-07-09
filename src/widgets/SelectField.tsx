@@ -4,12 +4,10 @@ import {Select} from "./Select"
 
 type Props = {
   input: FieldInputProps<any, HTMLSelectElement>
-  // options: string[] | number[]
 } & any
 
 export const SelectField = ({
                               input,
-                              // options,
                               ...rest
                             }: Props) => <>
   <Select
