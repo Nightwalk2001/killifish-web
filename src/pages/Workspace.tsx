@@ -70,7 +70,7 @@ export const Workspace = () => {
     </div>
 
     <div className={"col-start-1 col-span-4 row-start-1 row-span-5 px-6"}>
-      <h2 className={"my-5 text-xl"}>Todo items</h2>
+      <h2 className={"my-5 text-xl"}>To-do list</h2>
       <div className={"space-y-2 overflow-y-auto"}>
         {todos && todos.map((d, i) =>
           <div

@@ -38,7 +38,7 @@ export const Routine = () => {
     <div className={"grid grid-cols-3 gap-y-3 place-content-center"}>
       {todoList.slice(10).map(d =>
         <div key={d} className={"flex items-center"}>
-          <input type={"checkbox"} className={"rounded-sm border-gray-500/90"}/>
+          <input type={"checkbox"} checked readOnly className={"rounded-sm border-gray-500/90"}/>
           <div className={"px-3 py-1.5 font-medium text-gray-500"}>
             {d}
           </div>

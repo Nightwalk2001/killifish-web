@@ -3,7 +3,7 @@ import {ChangeEvent} from "react"
 import {useNavigate} from "react-router-dom"
 import {useRecoilValue, useSetRecoilState} from "recoil"
 import {Profile} from "./Profile"
-import {Icon} from "@/widgets/Icons";
+import {Icon} from "./Icons"
 
 export const TopBar = () => {
   const navigate = useNavigate()
@@ -15,7 +15,7 @@ export const TopBar = () => {
         goForward = () => navigate(1),
         refresh   = () => navigate(0)
 
-  const handleQuery = (ev: ChangeEvent<HTMLInputElement>) =>setQuery(ev.target.value)
+  const handleQuery = (ev: ChangeEvent<HTMLInputElement>) => setQuery(ev.target.value)
 
   return <div
     className={`${profile ? "visible" : "invisible"}
@@ -34,12 +34,13 @@ export const TopBar = () => {
       >
         Workspace
       </button>
-      <button className={"px-2.5 py-0.5 rounded-sm hover:text-white hover:bg-cyan-400/80 cursor-pointer"}>Monitor
+      <button className={"px-2.5 py-0.5 rounded-sm hover:text-white hover:bg-cyan-400/80 cursor-pointer"}>
+        Automatic Feeders
       </button>
       <button
         className={"px-2.5 py-0.5 rounded-sm hover:text-white hover:bg-cyan-400/80 cursor-pointer"}
         onClick={() => navigate("/routine")}>
-        Routine
+        Feeding Records
       </button>
       <button
         className={"px-2.5 py-0.5 rounded-sm hover:text-white hover:bg-cyan-400/80 cursor-pointer"}
